@@ -71,6 +71,7 @@ dependencies:
   google_fonts:
   syncfusion_flutter_charts:
   side_navigation:
+  lottie:
 
   flutter_slider_drawer:
 
@@ -80,6 +81,7 @@ dependencies:
       ref: master
   path_provider:
   video_player:
+  flutter_form_builder:
 
 
 
@@ -87,11 +89,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
@@ -111,6 +108,7 @@ flutter:
     - assets/icons/
     - assets/img/
     - assets/images/
+    - assets/intro/
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

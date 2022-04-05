@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp2/bloc/similar_movies_bloc/similar_movies_cubit.dart';
 import 'package:movieapp2/widgets/home_screen_widgets/movies_list_horizontal.dart';
+
 import '../../bloc/theme_bloc/theme_controller.dart';
 import '../../repositories/movie_repository.dart';
 import '../home_screen_widgets/movie_widgets_loader.dart';
@@ -20,15 +21,15 @@ class SimilarMoviesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => SimilarMoviesCubit(
-          repository: context.read<MovieRepository>(),
-        )..fetchList(movieId),
-        child:  SimilarMoviesList(
-          movieId: movieId,
-          movieRepository: movieRepository,
-          themeController: themeController,
-        ),
-      );
+      create: (_) => SimilarMoviesCubit(
+        repository: context.read<MovieRepository>(),
+      )..fetchList(movieId),
+      child: SimilarMoviesList(
+        movieId: movieId,
+        movieRepository: movieRepository,
+        themeController: themeController,
+      ),
+    );
   }
 }
 
@@ -51,7 +52,7 @@ class SimilarMoviesList extends StatelessWidget {
       case ListStatus.failure:
         return const Center(
             child: Text(
-          'Oops something went wrong!',
+          'Ko có!',
           style: TextStyle(color: Colors.white),
         ));
       case ListStatus.success:

@@ -40,7 +40,7 @@ class MovieDetailView extends StatelessWidget {
   }
 }
 
-class DetailView extends StatelessWidget {
+class DetailView extends StatefulWidget {
   DetailView(
       {Key? key,
       required this.movieId,
@@ -50,21 +50,37 @@ class DetailView extends StatelessWidget {
   final ThemeController themeController;
   final MovieRepository movieRepository;
   final int movieId;
+
+  @override
+  State<DetailView> createState() => _DetailViewState();
+}
+
+class _DetailViewState extends State<DetailView> {
   String? outputDate = "";
 
   final currencyFormatter = NumberFormat();
+  var state;
   var inputFormat = DateFormat('yyyy-MM-dd');
-  // var inputDate; // <-- dd/MM 24H format
-
   var outputFormat = DateFormat('dd/MM/yyyy');
+
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 700), () {
+      setState(() {
+        outputDate =
+            outputFormat.format(inputFormat.parse(state.movie.releaseDate));
+        print("kkkkk0" + outputDate!);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final currencyFormatter = NumberFormat();
-    final state = context.watch<MovieDetailCubit>().state;
-    outputDate =
-        outputFormat.format(inputFormat.parse(state.movie.releaseDate));
-    print("kkkkk0" + outputDate!);
+    state = context.watch<MovieDetailCubit>().state;
+    // outputDate =
+    //     outputFormat.format(inputFormat.parse(state.movie.releaseDate));
+    // print("kkkkk0" + outputDate!);
     switch (state.status) {
       case ListStatus.failure:
         return const Center(
@@ -187,10 +203,8 @@ class DetailView extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        (outputDate != null)
-                                            ? "Ngày phát hành : " +
-                                                outputDate.toString()
-                                            : "Ngày phát hành : ... ",
+                                        "Ngày phát hành : " +
+                                            outputDate!.toString(),
                                         style: const TextStyle(
                                             fontSize: 12.0,
                                             fontWeight: FontWeight.w200),
@@ -316,11 +330,11 @@ class DetailView extends StatelessWidget {
                     height: 10.0,
                   ),
                   RepositoryProvider.value(
-                    value: movieRepository,
+                    value: widget.movieRepository,
                     child: MovieCasts(
-                      themeController: themeController,
-                      movieRepository: movieRepository,
-                      movieId: movieId,
+                      themeController: widget.themeController,
+                      movieRepository: widget.movieRepository,
+                      movieId: widget.movieId,
                     ),
                   )
                 ],
@@ -420,11 +434,11 @@ class DetailView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 2.0),
                     child: RepositoryProvider.value(
-                      value: movieRepository,
+                      value: widget.movieRepository,
                       child: SimilarMoviesWidget(
-                        themeController: themeController,
-                        movieRepository: movieRepository,
-                        movieId: movieId,
+                        themeController: widget.themeController,
+                        movieRepository: widget.movieRepository,
+                        movieId: widget.movieId,
                       ),
                     ),
                   )
@@ -444,6 +458,7 @@ class DetailView extends StatelessWidget {
   String getDuration(int minutes) {
     var d = Duration(minutes: minutes);
     List<String> parts = d.toString().split(':');
+    print("giờ " + parts.toString());
     return '${parts[0].padLeft(2, '0')}h ${parts[1].padLeft(2, '0')}phút';
   }
 }

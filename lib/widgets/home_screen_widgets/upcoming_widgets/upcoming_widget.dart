@@ -22,7 +22,9 @@ class _UpComingWidgetState extends State<UpComingWidget> {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: widget.movieRepository,
-      child: const UpComingSlider(),
+      child: UpComingSlider(
+          movieRepository: widget.movieRepository,
+          themeController: widget.themeController),
     );
   }
 }

@@ -3,14 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:movieapp2/bloc/theme_bloc/theme_controller.dart';
 import 'package:movieapp2/bloc/upcoming_bloc/upcoming_cubit.dart';
 import 'package:movieapp2/repositories/movie_repository.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'upcoming_loader.dart';
 
 class UpComingSlider extends StatelessWidget {
-  const UpComingSlider({Key? key}) : super(key: key);
+  const UpComingSlider(
+      {Key? key, required this.themeController, required this.movieRepository});
+
+  final ThemeController themeController;
+  final MovieRepository movieRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +24,30 @@ class UpComingSlider extends StatelessWidget {
       create: (_) => UpComingCubit(
         repository: context.read<MovieRepository>(),
       )..fetchUpComing(),
-      child: UpComingView(),
+      child: UpComingView(
+          movieRepository: movieRepository, themeController: themeController),
     );
   }
 }
 
-class UpComingView extends StatelessWidget {
-  UpComingView({Key? key}) : super(key: key);
-  String date = "${DateFormat('dd-MM-yyyy').format(
-    DateTime.parse(
-      DateTime.now().toString(),
-    ),
-  )}";
+class UpComingView extends StatefulWidget {
+  const UpComingView(
+      {Key? key, required this.themeController, required this.movieRepository});
+
+  final ThemeController themeController;
+  final MovieRepository movieRepository;
+
+  @override
+  State<UpComingView> createState() => _UpComingViewState();
+}
+
+class _UpComingViewState extends State<UpComingView> {
+  var inputFormat = DateFormat('yyyy-MM-dd');
+  var outputFormat = DateFormat('dd/MM/yyyy');
+  String? outputDate = "";
+
+  void initState() {}
+
   @override
   Widget build(BuildContext context) {
     final state = context.watch<UpComingCubit>().state;
@@ -37,116 +55,98 @@ class UpComingView extends StatelessWidget {
       case ListStatus.failure:
         return const Center(child: Text('Có lỗi '));
       case ListStatus.success:
-        return Stack(
+        return Column(
           children: [
-            CarouselSlider(
-              options: CarouselOptions(
-                autoPlay: false,
-                viewportFraction: 1.0,
-                aspectRatio: 2 / 2.8,
-                enlargeCenterPage: true,
-              ),
-              items: state.movies
-                  .map((movie) => Stack(
-                        children: [
-                          Stack(
+            Positioned(
+                left: 10.0,
+                top: 10.0,
+                child: SafeArea(
+                  child: Text(
+                    " NỔI BẬT",
+                    style: TextStyle(
+                        fontFamily: 'NunitoBold',
+                        fontSize: 18.0,
+                        color: Colors.white.withOpacity(0.5)),
+                  ),
+                )),
+            Stack(
+              children: [
+                CarouselSlider(
+                  options: CarouselOptions(
+                    autoPlay: false,
+                    viewportFraction: 1.0,
+                    aspectRatio: 3.5 / 2.8,
+                    enlargeCenterPage: true,
+                  ),
+                  items: state.movies
+                      .map((movie) => Stack(
                             children: [
-                              Shimmer.fromColors(
-                                baseColor: Colors.black87,
-                                highlightColor: Colors.white54,
-                                enabled: true,
-                                child: const AspectRatio(
-                                    aspectRatio: 2 / 2.8,
-                                    child: Icon(
-                                      FontAwesome5.film,
-                                      color: Colors.black26,
-                                      size: 40.0,
-                                    )),
-                              ),
-                              AspectRatio(
-                                  aspectRatio: 2 / 2.8,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    child: Expanded(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          // shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: Colors.grey,
+                              Stack(
+                                children: [
+                                  Shimmer.fromColors(
+                                    baseColor: Colors.black87,
+                                    highlightColor: Colors.white54,
+                                    enabled: true,
+                                    child: const AspectRatio(
+                                        aspectRatio: 6 / 2.8,
+                                        child: Icon(
+                                          FontAwesome5.film,
+                                          color: Colors.black26,
+                                          size: 40.0,
+                                        )),
+                                  ),
+                                  Column(
+                                    children: [
+                                      Expanded(
+                                        child: AspectRatio(
+                                          aspectRatio: 4.2 / 2.8,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                            child: FadeInImage.memoryNetwork(
+                                                fit: BoxFit.fitHeight,
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                placeholder: kTransparentImage,
+                                                // height: 200,
+                                                image:
+                                                    "https://image.tmdb.org/t/p/original/" +
+                                                        movie.poster),
                                           ),
-                                          image: DecorationImage(
-                                              fit: BoxFit.fill,
-                                              image:
-                                                  AssetImage("assets/22.jpg")),
                                         ),
                                       ),
-                                    ),
-                                    // FadeInImage.memoryNetwork(
-                                    //     fit: BoxFit.fitHeight,
-                                    //     alignment: Alignment.bottomCenter,
-                                    //     placeholder: kTransparentImage,
-                                    //     image:
-                                    //         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTty-99wmSoUwPEJJPWz881jp5uxr29vn_FxTu6PbLbTB-L24Fk4YmQytD5EdEynrwwUz4&usqp=CAU" +
-                                    //             movie.poster),
-                                  )),
-                            ],
-                          ),
-                          AspectRatio(
-                            aspectRatio: 2 / 2.8,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                    stops: const [
-                                      0.0,
-                                      0.4,
-                                      0.4,
-                                      1.0
+                                      Positioned(
+                                          top: 1.0,
+                                          right: 1.0,
+                                          child: SafeArea(
+                                            child: Text(
+                                              "Ngày : " +
+                                                  outputFormat.format(
+                                                      inputFormat.parse(
+                                                          movie.releaseDate)) +
+                                                  "  ",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12.0,
+                                                  color: Colors.white),
+                                            ),
+                                          )),
                                     ],
-                                    colors: [
-                                      Colors.black.withOpacity(1.0),
-                                      Colors.black.withOpacity(0.0),
-                                      Colors.black.withOpacity(0.0),
-                                      Colors.black.withOpacity(0.7),
-                                    ]),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ),
-                          Positioned(
-                              top: 5.0,
-                              right: 10.0,
-                              child: SafeArea(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Ngày : " + date,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey,
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                    // Text(
-                                    //   movie.releaseDate,
-                                    //   style: const TextStyle(
-                                    //       fontWeight: FontWeight.bold,
-                                    //       fontSize: 12.0,
-                                    //       color: Colors.grey),
-                                    // ),
-                                  ],
-                                ),
-                              )),
-                        ],
-                      ))
-                  .toList(),
+                            ],
+                          ))
+                      .toList(),
+                ),
+              ],
             ),
             Positioned(
                 left: 10.0,
                 top: 10.0,
                 child: SafeArea(
                   child: Text(
-                    "Đẩy phim mới",
+                    "-------",
                     style: TextStyle(
                         fontFamily: 'NunitoBold',
                         fontSize: 18.0,

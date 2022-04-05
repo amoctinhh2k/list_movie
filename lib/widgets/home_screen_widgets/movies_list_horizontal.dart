@@ -31,6 +31,7 @@ class MoviesListHorizontal extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10.0, left: 8.0),
             child: GestureDetector(
               onTap: () {
+                print("KKKKKKKKKK");
                 Navigator.push(
                   context,
                   MaterialPageRoute(

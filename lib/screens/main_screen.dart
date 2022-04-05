@@ -4,9 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movieapp2/bloc/bottom_navbar_bloc.dart';
 import 'package:movieapp2/bloc/theme_bloc/theme_controller.dart';
 import 'package:movieapp2/repositories/movie_repository.dart';
-import 'package:video_player/video_player.dart';
 
 import 'home_screen/home_screen.dart';
+import 'login.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen(
@@ -23,18 +23,18 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final BottomNavBarBloc _bottomNavBarBloc = BottomNavBarBloc();
   late bool isDarkMode;
-  late VideoPlayerController _controller;
+  // late VideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    // Pointing the video controller to our local asset.
-    _controller = VideoPlayerController.asset("assets/coffee.mp4")
-      ..initialize().then((_) {
-        _controller.play();
-        _controller.setLooping(true);
-        setState(() {});
-      });
+    // // Pointing the video controller to our local asset.
+    // _controller = VideoPlayerController.asset("assets/coffee.mp4")
+    //   ..initialize().then((_) {
+    //     _controller.play();
+    //     _controller.setLooping(true);
+    //     setState(() {});
+    //   });
   }
 
   @override
@@ -67,7 +67,8 @@ class _MainScreenState extends State<MainScreen> {
                 case NavBarItem.search:
                   return Container();
                 case NavBarItem.profile:
-                  return Container();
+                  return BackgroundVideo();
+                // Container();
                 default:
                   return Container();
               }
