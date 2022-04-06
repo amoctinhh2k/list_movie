@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movieapp2/model/movie.dart';
 import 'package:movieapp2/repositories/movie_repository.dart';
+
 part 'popular_movies_state.dart';
 
 class PopularMovieCubit extends Cubit<PopularMovieState> {
@@ -13,6 +14,7 @@ class PopularMovieCubit extends Cubit<PopularMovieState> {
   Future<void> fetchList() async {
     try {
       final movieResponse = await repository.getPopuparMovies(1);
+      print("QQQQQQQQ" + movieResponse.movies.toString());
       emit(PopularMovieState.success(movieResponse.movies));
     } on Exception {
       emit(const PopularMovieState.failure());

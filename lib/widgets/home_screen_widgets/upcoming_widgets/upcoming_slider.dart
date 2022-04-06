@@ -62,7 +62,7 @@ class _UpComingViewState extends State<UpComingView> {
                 top: 10.0,
                 child: SafeArea(
                   child: Text(
-                    " NỔI BẬT",
+                    " Ectrizz",
                     style: TextStyle(
                         fontFamily: 'NunitoBold',
                         fontSize: 18.0,
@@ -115,12 +115,15 @@ class _UpComingViewState extends State<UpComingView> {
                                           ),
                                         ),
                                       ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Positioned(
-                                          top: 1.0,
-                                          right: 1.0,
+                                          top: 10.0,
+                                          right: 10.0,
                                           child: SafeArea(
                                             child: Text(
-                                              "Ngày : " +
+                                              "Ngày phát hành : " +
                                                   outputFormat.format(
                                                       inputFormat.parse(
                                                           movie.releaseDate)) +

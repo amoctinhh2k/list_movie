@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movieapp2/bloc/bottom_navbar_bloc.dart';
 import 'package:movieapp2/bloc/theme_bloc/theme_controller.dart';
 import 'package:movieapp2/repositories/movie_repository.dart';
+import 'package:movieapp2/widgets/genres_screen_widgets/genres_widgets/genres_widget.dart';
 
 import 'home_screen/home_screen.dart';
 import 'login.dart';
@@ -63,7 +64,9 @@ class _MainScreenState extends State<MainScreen> {
                       movieRepository: widget.movieRepository,
                       themeController: widget.themeController);
                 case NavBarItem.genres:
-                  return Container();
+                  return GenresWidget(
+                      movieRepository: widget.movieRepository,
+                      themeController: widget.themeController);
                 case NavBarItem.search:
                   return Container();
                 case NavBarItem.profile:

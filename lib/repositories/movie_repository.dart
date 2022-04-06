@@ -39,6 +39,7 @@ class MovieRepository {
     try {
       Response response =
           await _dio.get(getPopularMoviesApi, queryParameters: params);
+      print("      XEM NGAY  ... : " + response.data.toString());
       return MovieResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       return MovieResponse.withError("Error: $error, StackTrace: $stacktrace");
@@ -50,6 +51,7 @@ class MovieRepository {
     try {
       Response response =
           await _dio.get(getNowPlayingMoviesApi, queryParameters: params);
+      print("Phim mới nhất ... : " + response.data.toString());
       return MovieResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       return MovieResponse.withError("Error: $error, StackTrace: $stacktrace");
@@ -61,6 +63,7 @@ class MovieRepository {
     try {
       Response response =
           await _dio.get(getUpComingApi, queryParameters: params);
+      print("Nổi bật ... : " + response.data.toString());
       return MovieResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       return MovieResponse.withError("Error: $error, StackTrace: $stacktrace");
@@ -72,6 +75,7 @@ class MovieRepository {
     try {
       Response response =
           await _dio.get(getTopRatedMoviesApi, queryParameters: params);
+      print("Phim hot ... : " + response.data.toString());
       return MovieResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       return MovieResponse.withError("Error: $error, StackTrace: $stacktrace");
@@ -93,6 +97,7 @@ class MovieRepository {
     var params = {"api_key": apiKey, "language": "vi-vn"};
     try {
       Response response = await _dio.get(getGenresUrl, queryParameters: params);
+      print("Genres : " + response.data.toString());
       return GenreResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       return GenreResponse.withError("Error: $error, StackTrace: $stacktrace");
@@ -142,6 +147,7 @@ class MovieRepository {
     try {
       Response response = await _dio.get(movieUrl + "/$id" + "/videos",
           queryParameters: params);
+      print("Video ... : " + response.data.toString());
       return VideoResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       return VideoResponse.withError("Error: $error, StackTrace: $stacktrace");
