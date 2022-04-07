@@ -39,7 +39,6 @@ class MovieRepository {
     try {
       Response response =
           await _dio.get(getPopularMoviesApi, queryParameters: params);
-      print("      XEM NGAY  ... : " + response.data.toString());
       return MovieResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       return MovieResponse.withError("Error: $error, StackTrace: $stacktrace");
@@ -118,7 +117,7 @@ class MovieRepository {
   Future<MovieResponse> getMovieByGenre(int id) async {
     var params = {
       "api_key": apiKey,
-      "language": "en-US",
+      "language": "vi-vn",
       "page": 1,
       "with_genres": id
     };

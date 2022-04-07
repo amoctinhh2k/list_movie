@@ -21,55 +21,59 @@ class GenresListHorizontal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 170.0,
-      child: ListView.builder(
-        // scrollDirection: Axis.vertical,
-        itemCount: genres.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 10.0, left: 8.0),
-            child: GestureDetector(
-              onTap: () {
-                print("KKKKKKKKKK ${genres[index].id}" + genres[index].name);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GenreMovieListWidget(
-                        themeController: themeController,
-                        movieRepository: movieRepository,
-                        genre: genres[index]),
-                  ),
-                );
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.0)),
-                    child: Stack(
-                      children: [
-                        Shimmer.fromColors(
-                          baseColor: Colors.black87,
-                          highlightColor: Colors.white54,
-                          enabled: true,
-                          child: const SizedBox(
-                            height: 160.0,
-                            child: AspectRatio(
-                                aspectRatio: 2 / 3,
+    return Scaffold(
+      backgroundColor: Colors.black12,
+      appBar: AppBar(
+        title: Text(
+          "Danh sách thể loại phim",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+      ),
+      body: GridView.count(
+          crossAxisCount: 3,
+          crossAxisSpacing: 4.0,
+          mainAxisSpacing: 8.0,
+          children: List.generate(genres.length, (index) {
+            return Padding(
+              padding:
+                  const EdgeInsets.only(bottom: 10.0, left: 8.0, top: 15.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GenreMovieListWidget(
+                          themeController: themeController,
+                          movieRepository: movieRepository,
+                          genre: genres[index]),
+                    ),
+                  );
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.0)),
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.black87,
+                              highlightColor: Colors.white54,
+                              enabled: true,
+                              child: const SizedBox(
                                 child: Icon(
                                   FontAwesome5.film,
                                   color: Colors.black26,
                                   size: 40.0,
-                                )),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 160.0,
-                          child: Container(
-                            child: AspectRatio(
-                              aspectRatio: 2 / 3,
+                          SizedBox(
+                            height: 40.0,
+                            child: Container(
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 5.0),
                                 child: Center(
@@ -86,23 +90,21 @@ class GenresListHorizontal extends StatelessWidget {
                                           height: 1.4,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 9.0),
+                                          fontSize: 12.0),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      ),
+            );
+          })),
     );
   }
 }

@@ -14,7 +14,6 @@ class PopularMovieCubit extends Cubit<PopularMovieState> {
   Future<void> fetchList() async {
     try {
       final movieResponse = await repository.getPopuparMovies(1);
-      print("QQQQQQQQ" + movieResponse.movies.toString());
       emit(PopularMovieState.success(movieResponse.movies));
     } on Exception {
       emit(const PopularMovieState.failure());

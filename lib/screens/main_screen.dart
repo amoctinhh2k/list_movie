@@ -5,6 +5,7 @@ import 'package:movieapp2/bloc/bottom_navbar_bloc.dart';
 import 'package:movieapp2/bloc/theme_bloc/theme_controller.dart';
 import 'package:movieapp2/repositories/movie_repository.dart';
 import 'package:movieapp2/widgets/genres_screen_widgets/genres_widgets/genres_widget.dart';
+import 'package:movieapp2/widgets/search_screen_widgets/search_list/search_widget.dart';
 
 import 'home_screen/home_screen.dart';
 import 'login.dart';
@@ -68,7 +69,10 @@ class _MainScreenState extends State<MainScreen> {
                       movieRepository: widget.movieRepository,
                       themeController: widget.themeController);
                 case NavBarItem.search:
-                  return Container();
+                  return SearchWidget(
+                      movieRepository: widget.movieRepository,
+                      themeController: widget.themeController);
+                // Container();
                 case NavBarItem.profile:
                   return BackgroundVideo();
                 // Container();

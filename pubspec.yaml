@@ -72,7 +72,7 @@ dependencies:
   syncfusion_flutter_charts:
   side_navigation:
   lottie:
-  simple_autocomplete_formfield:
+  flutter_typeahead:
 
   flutter_slider_drawer:
 
